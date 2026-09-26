@@ -1,6 +1,6 @@
-# SHMOREZ Virtual Camera Helper
+# fuck OBS Virtual Camera
 
-A Windows 11 native application that bridges a browser-based studio's program output into a Windows virtual camera accessible from Discord, Zoom, OBS, Teams, Chrome, and other applications.
+A Windows 11 native application that bridges a browser-based studio's program output into a Windows virtual camera accessible from Discord, Zoom, Teams, Chrome, and other applications.
 
 **Status**: Phase 1 - Build Microsoft sample unmodified
 
@@ -11,13 +11,13 @@ Browser Studio (Program Output)
     ↓
 WebSocket Connection (ws://127.0.0.1:38476)
     ↓
-SHMOREZ Virtual Camera Helper (Native Win32/WinRT)
+fuck OBS Virtual Camera Helper (Native Win32/WinRT)
     ↓
 Media Foundation Virtual Camera
     ↓
 Windows Camera Subsystem
     ↓
-Applications (Discord, Zoom, OBS, Teams, etc.)
+Applications (Discord, Zoom, Teams, Chrome, etc.)
 ```
 
 ## Key Design Principles
@@ -28,6 +28,7 @@ Applications (Discord, Zoom, OBS, Teams, etc.)
 4. **Reliable fallback** - Standby frame when browser disconnected
 5. **System tray integration** - Simple status monitoring and control
 6. **Production-ready** - Proper logging, error handling, installer support
+7. **Lightweight** - No external video editor dependencies; pure frame bridge
 
 ## System Requirements
 
@@ -41,7 +42,7 @@ Applications (Discord, Zoom, OBS, Teams, etc.)
 ## Project Structure
 
 ```
-SHMOREZ-VirtualCamera-Helper/
+fuck-OBS-VirtualCamera/
 ├── docs/
 │   ├── PHASE_1.md              # Build Microsoft sample unmodified
 │   ├── PHASE_2.md              # Rename and verify in Windows
@@ -71,7 +72,7 @@ SHMOREZ-VirtualCamera-Helper/
 - `VirtualCameraMediaSource.dll` - COM-registered Media Foundation source
 - `VirtualCameraHelper.exe` - System tray application
 - `VirtualCameraInstaller.exe` - MSI-executed installer
-- `VirtualCamera.msi` - Installer package
+- `fuck-OBS-VirtualCamera.msi` - Installer package
 - `VirtualCameraTest.exe` - Validation test suite
 
 ## Implementation Phases
@@ -85,19 +86,19 @@ SHMOREZ-VirtualCamera-Helper/
 
 **Deliverable**: Successful build with no modifications to sample code
 
-### Phase 2: Rename Virtual Camera to "SHMOREZ Virtual Camera"
+### Phase 2: Rename Virtual Camera to "fuck OBS Virtual Camera"
 - [ ] Modify camera friendly name in VirtualCameraManager
 - [ ] Update installer branding
 - [ ] Update system tray app strings
 - [ ] Rebuild MSI
 - [ ] Install on test system
-- [ ] Verify camera appears as "SHMOREZ Virtual Camera" in:
+- [ ] Verify camera appears as "fuck OBS Virtual Camera" in:
   - Windows Settings > Cameras
-  - OBS Studio camera list
   - Zoom/Teams device settings
   - Chrome camera picker
+  - Any other applications
 
-**Deliverable**: Virtual camera discoverable as "SHMOREZ Virtual Camera" on system
+**Deliverable**: Virtual camera discoverable as "fuck OBS Virtual Camera" on system
 
 ### Phase 3: Replace Synthetic Frame Generator with Test WebSocket Client
 - [ ] Create simple test WebSocket client (Node.js or Python)
@@ -105,7 +106,7 @@ SHMOREZ-VirtualCamera-Helper/
 - [ ] Modify SimpleMediaSource to accept external JPEG frames
 - [ ] Create "Waiting for browser..." standby frame
 - [ ] Test frame injection from test client
-- [ ] Verify frames appear in OBS/camera test applications
+- [ ] Verify frames appear in camera test applications
 
 **Deliverable**: Virtual camera receives external frames from test client
 
@@ -117,7 +118,7 @@ SHMOREZ-VirtualCamera-Helper/
 - [ ] Test with live program output
 - [ ] Optimize frame rate (30 FPS, 60 FPS capability)
 
-**Deliverable**: Functional end-to-end system bridging browser to Discord/Zoom/OBS
+**Deliverable**: Functional end-to-end system bridging browser to Discord/Zoom/Teams/etc.
 
 ### Phase 5: Polish & Deployment
 - [ ] Add diagnostic logging
@@ -144,8 +145,8 @@ See [PHASE_1.md](docs/PHASE_1.md) for detailed build instructions.
 ### Step 2: Set Up This Repository
 
 ```bash
-git clone https://github.com/hungryshmorez/SHMOREZ-VirtualCamera-Helper
-cd SHMOREZ-VirtualCamera-Helper
+git clone https://github.com/hungryshmorez/fuck-OBS-VirtualCamera
+cd fuck-OBS-VirtualCamera
 ```
 
 ### Step 3: Follow Phase 1 Implementation
@@ -187,7 +188,7 @@ When browser is disconnected, the virtual camera displays:
 
 ```
 ╔════════════════════════════════╗
-║  SHMOREZ VIRTUAL CAMERA        ║
+║  fuck OBS VIRTUAL CAMERA       ║
 ║                                ║
 ║  Waiting for browser studio…   ║
 ║                                ║
@@ -197,7 +198,7 @@ When browser is disconnected, the virtual camera displays:
 
 ## Logging
 
-Logs written to: `%APPDATA%\SHMOREZ\VirtualCameraHelper\logs\`
+Logs written to: `%APPDATA%\fuck-OBS\VirtualCamera\logs\`
 
 - `mediasource.log` - Media Foundation initialization and frame events
 - `websocket.log` - Connection, frame reception, drops
@@ -232,19 +233,19 @@ VirtualCameraTest.exe --gtest_list_tests
 
 ### Manual Verification
 
-1. **OBS Studio**
-   - Add source → Video Capture Device
-   - Select "SHMOREZ Virtual Camera"
-   - Verify resolution options and frame preview
-
-2. **Zoom/Teams**
+1. **Zoom/Teams**
    - Settings → Video
-   - Select "SHMOREZ Virtual Camera"
+   - Select "fuck OBS Virtual Camera"
    - Start test call, verify video feed
+
+2. **Discord**
+   - User Settings → Voice & Video
+   - Select "fuck OBS Virtual Camera"
+   - Join a voice channel, verify camera feed
 
 3. **Chrome**
    - Open camera test: `chrome://devices/`
-   - Check "SHMOREZ Virtual Camera" enumeration
+   - Check "fuck OBS Virtual Camera" enumeration
    - Test getUserMedia() API
 
 ## Troubleshooting
@@ -279,8 +280,8 @@ netstat -ano | findstr 38476
 
 ## FAQ
 
-**Q: Can I use this with OBS Studio?**
-A: Yes. OBS will see "SHMOREZ Virtual Camera" as a normal webcam source.
+**Q: Can I use this with other applications like Discord, Zoom, Teams?**
+A: Yes. They will see "fuck OBS Virtual Camera" as a normal webcam source.
 
 **Q: Does this require admin rights?**
 A: Installation requires elevation. The running helper app can operate as standard user after installation.
@@ -295,7 +296,11 @@ A: No, only one virtual camera instance per name is supported. The design uses a
 A: Not in Phase 1-3 (ws://, not wss://). Local-only design and token authentication provide security. HTTPS/WSS can be added if needed.
 
 **Q: How do I uninstall?**
-A: Use Add/Remove Programs or run: `VirtualCamera.msi /uninstall`
+A: Use Add/Remove Programs or run: `fuck-OBS-VirtualCamera.msi /uninstall`
+
+## Philosophy
+
+This project exists because OBS is bloated and feature-heavy when all you need is a simple bridge from your browser-based studio to Windows' native camera system. fuck OBS Virtual Camera is pure, lightweight, and does one thing well: move pixels from your web app to any application that can use a camera.
 
 ## Contributing
 
