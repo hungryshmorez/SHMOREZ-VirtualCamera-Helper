@@ -1,0 +1,21 @@
+# .gitignore
+
+# Build outputs
+bin/
+obj/
+*.user
+*.suo
+*.db
+*.opendb
+*.VC.db
+
+# Visual Studio
+.vs/
+packages/
+
+# Test output
+TestResults/
+
+# Local runtime data
+logs/
+*.log
